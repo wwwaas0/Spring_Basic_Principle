@@ -9,6 +9,8 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 public class MemberApp {
     public static void main(String[] args) {
+        //여기서 실행시키면 스프링 컨테이너가 AppConfig에서 현재 사용되는 객체 가져옴.
+
         /*
             원래는 AppConfig 객체를 직접 찾아왔지만, 이제 스프링 컨테이너를 통해서 찾아오게 만듬
 
@@ -20,9 +22,10 @@ public class MemberApp {
         /*
             아래는 스프링 컨테이너를 통해서 필요한 객체를 가져오는 코드.
             ApplicationContext가 스프링 컨테이너라고 보면 됨. 얘가 @Bean 붙은 메소드들을 관리
-            AnnotationConfigApplicationContext는 어노테이션 기반으로 config하고 있을때 사용?
+            AnnotationConfigApplicationContext는 어노테이션 기반으로 config하고 있을때 사용
+            XML 기반은 XMLConfig~~ 이렇게??
 
-            applicationContext.getBean("@Bean에 등록된 메소드 이름", 반환될 인터페이스 객체?)
+            applicationContext.getBean("@Bean에 등록된 메소드 이름", 반환될 객체, 즉 등록된 메소드의 반환 객체)
          */
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
         MemberService memberService = applicationContext.getBean("memberService", MemberService.class);

@@ -22,6 +22,8 @@ import org.springframework.context.annotation.Configuration;
     이렇게 스프링 컨테이너에 등록된 객체를 스프링 빈이라고 한다.
     또한, 스프링 빈은 @Bean이 붙은 메서드 명을 스프링 빈의 이름으로 사용. 물론 @Beam(name = "바꿀 이름")으로 이름 바꿀 수 있음
     ex) 'memberService', 'orderService'
+
+    ** 빈의 이름은 모두 다르게 부여!! **
  */
 @Configuration //이 클래스는 DI 컨테이너라는 뜻
 public class AppConfig {
@@ -31,7 +33,10 @@ public class AppConfig {
     public MemberService memberService() {
         //MemberServiceImpl의 생성자를 이용해서 원하는 구현체 주입 -> 생성자 주입
         return new MemberServiceImpl(memberRepository());
+        //"memberService"는 "memberRepository"에 의존
+        //이때, "memberRepository"은 다른 빈의 이름
     }
+    //"memberService"가 빈의 이름, "MemberServiceImpl"이 객체가 된다.
 
     //AppConfig 내의 의존 관계 생각해보기 - new 중복 제거
     //원래 memberRepository를 바꾸면 memberService, orderService 메소드를 일일이 바꿔야했음
@@ -44,9 +49,12 @@ public class AppConfig {
     public OrderService orderService() {
         return new OrderServiceImpl(memberRepository(), discountPolicy());
     }
+    //"orderService"는 "memberRepository", "discountPolicy"에 의존
 
     @Bean
     public DiscountPolicy discountPolicy() {
         return new RateDiscountPolicy();
     }
+
+    //이걸로 객체 간 의존 관계가 설정(스프링 빈 연결)
 }
