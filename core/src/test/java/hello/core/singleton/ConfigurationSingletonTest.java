@@ -30,4 +30,25 @@ public class ConfigurationSingletonTest {
         Assertions.assertThat(memberService.getMemberRepository()).isSameAs(memberRepository);
         Assertions.assertThat(orderService.getMemberRepository()).isSameAs(memberRepository);
     }
+
+    @Test
+    @DisplayName("AppConfig 파일 자세하게 보기")
+    void configurationDeep(){
+        ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
+        AppConfig bean =ac.getBean(AppConfig.class);
+
+        System.out.println("bean = "+bean.getClass());
+        //출력하면 다음처럼 나온다
+        //bean = class hello.core.AppConfig$$EnhancerBySpringCGLIB$$acbb0914
+        //$$EnhancerBySpringCGLIB$$acbb0914 부분이 이상하다! 이게 뭘까?
+
+        /*
+        순수한 클래스라면 bean = class hello.core.AppConfig 이렇게만 출력된다
+        뒤에 ~~CGLIB가 붙은 것은 내가 만든 클래스가 아니라, 스프링이 빈을 등록할 때 뭔가 조작했다는 뜻
+            스프링이 CGLIB라는 바이트코드를 조작하는 라이브러리를 사용
+            -> AppConfig 클래스를 상속받는 임의의 클래스 만들기
+            -> 이 임의의 클래스(AppConfig@CGLIB)에 AppConfig 메소드를 오버라이딩
+             -> 이걸 스프링 빈으로 등록함
+         */
+    }
 }
