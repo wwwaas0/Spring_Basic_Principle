@@ -28,6 +28,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration //이 클래스는 DI 컨테이너라는 뜻
 public class AppConfig {
 
+//    @Bean의 memberService 호출하면 최종적으로 new MemoryMemberRepository()를 호출한다
+//    @Bean orderService 호출하면 윗줄과 마찬가지로 new MemoryMemberRepository()를 호출
+//    -> 이러면 싱글톤이 깨지지 않을까? 테스트 코드로 실험해보자
+//      MemberServiceImpl의 멤버 변수인 memberRepository와,
+//      OrderServiceImpl의 멤버 변수인 memberRepository의 비교 - 같은 인스턴스인지
+
     //@Bean 어노테이션을 붙여주면 해당 메소드들이 스프링 컨테이너에 등록됨
     @Bean
     public MemberService memberService() {
